@@ -1,12 +1,14 @@
 package poly;
 
-public class Vigenere {
+import java.util.Arrays;
+
+public class Vigenere_new {
 
   public static char shift(char c, int k) {
     return (char) ((( c - 65 + k ) % 26 ) + 65 );
   }
   
-  public static String caeser(String arg, int key) {
+  public static String caesar(String arg, int key) {
     String res = "";
     for(int i=0; i<arg.length(); i++) {
       char c = arg.charAt(i);
@@ -15,38 +17,140 @@ public class Vigenere {
     return res;
   }
   
-  public static String vigenere(String arg, String keyword) {
+  public static String vigenere(String arg, String keyword, boolean encrypt) {
     String res = "";
   
-    
     for(int i=0; i<arg.length(); i++) {
       char c = arg.charAt(i);
-
-       keyword = "BRUTUS";
-
-      // c = arg.charAt(i);
-      res += shift(c, keyword.charAt(i) -65);
+      int k = keyword.charAt( i % keyword.length() ) - 65;
       
-      // c = arg.charAt(i);
-      // res += shift(c, 'R'-65); 
-
-      // c = arg.charAt(i);
-      // res += shift(c, 'U'-65); 
-    
+      if( encrypt )
+        res += shift(c, k);
+      else
+        res += shift(c, 26-k);
     }
     
     return res;
   }
   
+
+  
   public static void main(String[] args) {
-    String plain = "VENIVI";
 
-    String cipher = caeser(plain, 3);
-    System.out.println( cipher );
+    String cipherA = 
+        
+          "PWTMYTBADKDGPWPFYWFGUESOTLUPNVYWAPKCSOOJWWASTLSUZ"
+        + "USJMJBBRSTIMGPYSXOJWWASMMZQLCHJQWGYDHKOJWWASTMFPA"
+        + "DWIPVKLHONZWPDPWRAAGQPRKNJCNPKGPJJLTHYOWOHPGYJWCU"
+        + "EKUZLGAOWKHOGPESMZMRWPBKVFVZTQNLAGSFSMVWTDPWRAAGQ"
+        + "PRKNJCNPTGTKEOMSGVLYVCHKBVKLOFOBLGNCIVXWPLYBZAAEO"
+        + "OWKEWEODZKZOGPWGOMSWMPWTIFFLCTUTYGUOSLZSILYOHEWEO"
+        + "DSRVVYHSFAVVHHWGIPTGHYHCWJVLERGJWKPDHGJWTUTQNBXGZ"
+        + "EUKTWIAZPPMOGPWGJQWGYDHKNJCNPSOVWTZPFOMNQUQFGOWPY"
+        + "TQNBAIVOSXNSNZNVHMSPAHCXBWVDTFJRWFLASXAGPHYHCWJVL"
+        + "EOANWKUPTXIYGUFFSQLLHZRKZFGPYTXIYGUOWKVAEOEAOBBCV"
+        + "OSXVWKUMSGVLYVCHKBOGYOSTSGGUYSTAAPKYWIPLBBRSRIKUL"
+        + "YJUVWKUPFHMDKLMWMMFRLCGUVKQSWAGVVWYNVLZSILYROMKKJ"
+        + "SBAZSWMOWKHMILSCKZAIRPWZHMGPYSXLWTNCIVXWPIPNOMZGU"
+        + "SSXIMUIPYUUEGUKICMDEOPFMZMRWPGOMYGOZSXBOKLGWKTWHY"
+        + "LUKVEWZDAGVEKUOSYBWPZDHKTDGUFBJEWNJSSLZSILYYUMFPA"
+        + "PAGVKVLWZKV";
     
-    System.out.println( caeser( cipher, 23 ) );
+    String cipherB =
+    		
+    	  "KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUM"
+    	+ "BSVLPSNCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJB"
+    	+ "GFQHTDWXIZAYGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQ"
+    	+ "EAPYMEKQHUIDUXFPGUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVR"
+    	+ "ECFBDJQCUSWVBPNLGOYLSKMTEFVJJTWWMFMWPNMEMTMHRSPXFSS"
+    	+ "KFFSTNUOCZGMDOEOYEEKCPJRGPMURSKHFRSEIUEVGOYCWXIZAYG"
+    	+ "OSAANYDOEOYJLWUNHAMEBFELXYVLWNOJNSIOFRWUCCESWKVIDGM"
+    	+ "UCGOCRUWGNMAAFFVNSIUDEKQHCEUCPFCMPVSUDGAVEMNYMAMVLF"
+    	+ "MAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFTWGMUSWOVMATNYBUH"
+    	+ "TCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEEDCLDHWTVBUVGF"
+    	+ "BIJGYYIDGMVRDGMPLSWGJLAGOEEKJOFEKNYNOLRIVRWVUHEIWUURW"
+    	+ "GMUTJCDBNKGMBIDGMEEYGUOTDGGQEUJYOTVGGBRUJYS";
     
-    System.out.println( vigenere ( plain, "BRUTUS" ));
+    //String cipherC = "hoolahoolagirlslikehooligans";
+    
+    //System.out.println( vigenere(cipherA, "LOGISCH", false) );
+    
+    String[] gruppen = split(cipherB, 5);
+    System.out.println( Arrays.toString(gruppen) );
+    
+    String gruppe1 = "KFJKKWMWFWSNKSKIAAWGFWYSYSJGWJAKDGMHZWGDEJWLSFWWMSSTZEKGSSVWYAEWMLWSWSDGWASKUMDMMATFXIDWWWTHWMMLWWJDWVJDDSAKKLWIWJKDYDUVU";
+    System.out.println( Arrays.toString(absFreqs(gruppe1)) );
+  
+    String gruppe2 = "QVUGJUKRGUVCQWOWXPPOQXGXNPNWUUPQUUTNGEKCCQVGKVWPTPKNGOCPKEGXGNOUEXNIUWGOGFIQCPGNVOQVKWCRGONTFGKGOGKCTGGGGWGJNRVWGCGGGGJGJ";
+    System.out.println( Arrays.toString(absFreqs(gruppe2)) );
+  
+    String gruppe3 = "OJULIXJLHULMCRYCYXNJHIFCCNYZUUYHXYFUMYMTFCBOMJMNMXFUMYPMHIOIOYYNBYOOCKMCNFUHPVAYLYCFLCCIMVYCYYBFJNNLVFYMMGOOYIUUMDMMUGYGY";
+    System.out.println( Arrays.toString(absFreqs(gruppe3)) );
+  
+    String gruppe4 = "WPNMNFBFUMPUTESTOPTBTZFSTTTGNQMUFTFORTEVBUPYTJFMHFFODEJUFUYZSDJHFVJFCVURMVDCFSVMFFUJNWUFUMBOTTBBFTEDBBYVPJEFNVHUUBBEOQOBS";
+    System.out.println( Arrays.toString(absFreqs(gruppe4)) );
+  
+    String gruppe5 = "EUUEMQGNDBSEEESUTLCGDANESUGREEEIPSSCURERDSNLETMERSSCOERRRECAAOLAELNREICUANEECUEAMNANEOLTSAUCNQNTTEEHUIIRLLEEORERTNIETETR";
+    System.out.println( Arrays.toString(absFreqs(gruppe5)) );
+  
+    System.out.println( vigenere( cipherB, "SCUBA", false ) );
   }
+  
+  public static String[] split(String arg, int n) {
+    String[] res = new String[n];
+    for(int i=0; i<n; i++) res[i] = "";
+    
+    for(int i=0; i<arg.length(); i++) {
+      res[i%n] += arg.charAt(i);
+    }
+    
+    return res;
+  }
+  
+  public static int[] absFreqs(String s) {
+    int[] counter = new int[26];
+    
+    for(int i=0; i<s.length(); i++) {
+      char c = s.charAt(i);
+      if(Character.isLetter(c)) { // c>=65 && c<=90
+        counter[ c-65 ]++;
+      }
+    }
+    
+    return counter;
+  }
+  
+  /*
+  EINE GRUPPE VON PERSONEN TEILT SICH SO IN DREI GRUPPEN DASS JEDER ZU GENAU EINER GRUPPE
+  GEHOERT DIE ERSTE GRUPPE NENNT SICH DIE WAHREN WEIL SIE JEDE FRAGE WAHRHEITSGEMAESS
+  BEANTWORTET DIE ZWEITE GRUPPE NENNT SICH DIE LUEGNER WEIL SIE JEDE FRAGE FALSCH BEANTWORTET
+  DIE DRITTE GRUPPE NENNT SICH DIE WECHSLER WEIL SIE AUFEINANDER FOLGENDE FRAGEN ABWECHSELND
+  WAHR UND FALSCH BEANTWORTET DABEI IST ABER NICHT FESTGELEGT OB JEWEILS DIE ERSTE FRAGE EINER
+  SERIE VON FRAGEN RICHTIG ODER FALSCH BEANTWORTET WIRD JEDE PERSON ANTWORTET AUF EINE FRAGE
+  NUR MIT JA ODER NEIN FRAGEN DIE NICHT MIT JA ODER NEIN BEANTWORTET WERDEN KOENNEN SIND NICHT
+  ZUGELASSEN VON EINER BELIEBIGEN PERSON SOLL MAN DURCH FRAGEN DIE SICH NUR AUF DIE ZUGEHOERIGKEIT
+  ZU EINER DER GRUPPEN BEZIEHEN HERAUSBEKOMMEN ZU WELCHER GRUPPE SIE GEHOERT WIEVIELE FRAGEN MUSS
+  MAN MINDESTENS STELLEN UND WELCHE FRAGEN KOENNTE MAN STELLEN
+  */
 
+  // Buchstabenblöcke
+  
+  //  A  B  C  D   E  F  G  H  I  J  K   L  M  N  O  P  Q  R  S   T  U  V  W   X  Y  Z
+  // [7, 0, 0, 10, 3, 5, 6, 2, 3, 7, 11, 4, 9, 1, 0, 0, 0, 0, 13, 3, 3, 3, 24, 1, 4, 2]
+  // [0, 0, 8, 0, 3, 2, 26, 0, 2, 4, 8, 0, 0, 9, 8, 8, 7, 3, 0, 4, 9, 7, 8, 5, 0, 0]
+  // [1, 3, 11, 1, 0, 8, 3, 5, 6, 5, 1, 6, 15, 7, 8, 2, 0, 1, 0, 1, 10, 3, 0, 4, 19, 1]
+  // [0, 11, 2, 4, 6, 17, 1, 3, 0, 6, 0, 0, 7, 5, 6, 5, 2, 2, 5, 13, 12, 7, 2, 0, 3, 2]
+  // [8, 1, 7, 3, 27, 0, 3, 1, 5, 0, 0, 7, 3, 10, 4, 1, 2, 12, 9, 8, 9, 0, 0, 0, 0, 0]
+
+  // Lösung: SCUBA
+  //   Text: SOUVENTPOURSAMUSERLESHOMMESDEQUIPAGEPRENNENTDESALBATROSVASTESOISEAUXDESMERSQUISUIVENTINDOLENTSCOMPAGNONSDEVOYAGELENAVIREGLISSANTSURLESGOUFFRESAMERSAPEINELESONTILSDEPOSESSURLESPLANCHESQUECESROISDELAZURMALADROITSETHONTEUXLAISSENTPITEUSEMENTLEURSGRANDESAILESBLANCHESCOMMEDESAVIRONSTRAINERACOTEDEUXCEVOYAGEURAILECOMMEILESTGAUCHEETVEULELUINAGUERESIBEAUQUILESTCOMIQUEETLAIDLUNAGACESONBECAVECUNBRULEGUEULELAUTREMIMEENBOITANTLINFIRMEQUIVOLAITLEPOETEESTSEMBLABLEAUPRINCEDESNUEESQUIHANTELATEMPETEETSERITDELARCHERBAUDELAIREEXILESURLESOLAUMILIEUDESHUEESLEMOTPOURETAGEQUATREESTTRAJANSESAILESDEGEANTLEMPECHENTDEMARCHER
+
+  public static String search (String cypherC) {
+	  for (int i = 0; i<cypherC.length(); i++) {
+		  
+	  }
+	
+	return null;  
+  }
+  
 }
